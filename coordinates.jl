@@ -19,7 +19,7 @@ mutable struct enucoordinates
     n::Float64
     u::Float64
     posofself::ecefcoordinates
-    
+
 end
 
 mutable struct aercoordinates
@@ -60,7 +60,8 @@ function eceftogeo(ecef::ecefcoordinates)
             templon = atan(ecef.y / ecef.x) / pi * 180
         end
         if ecef.x < 0
-            templon = -180 - atan(ecef.y /-ecef.x) / pi * 180
+            templon = -
+            180 - atan(ecef.y /-ecef.x) / pi * 180
         end
         if ecef.x == 0
             templon == -90
@@ -158,39 +159,3 @@ function distance2d(x,y)
     return sqrt(x*x+y*y)
 
 end
-
-println("hallo")
-
-foo = eceftogeo(ecefcoordinates(7.638932573319407e6,-1.266435036859557e7,1.986926779806476e7))
-println(foo)
-
-foo = geotoecef(foo)
-println(foo)
-
-foo = eceftogeo(ecefcoordinates(1.46716489217378e7,1.2244176580209156e7,1.7363367502810095e7))
-println(foo)
-
-foo = geotoecef(foo)
-println(foo)
-
-foo = eceftogeo(ecefcoordinates(1.7991359447382748e7,1.493100940250698e7,3.3452592907386366e6))
-println(foo)
-
-foo = geotoecef(foo)
-println(foo)
-
-foo = geotoecef(geocoordinates(0.0, 6.066027, 50.778747))
-println(foo)
-
-aachen1 = geocoordinates(0, 6.066458, 50.779816)
-aachen2 = geocoordinates(0, 6.068015, 50.780647)
-
-aachen2toaachen1 = enu(aachen2,aachen1)
-
-println(aachen2toaachen1)
-
-aachen2toaachen1 = aer(aachen2,aachen1)
-
-println(aachen2toaachen1)
-
-println("hey, I got here")
