@@ -3,6 +3,7 @@ mutable struct ecefcoordinates
     x::Float64
     y::Float64
     z::Float64
+
 end
 
 mutable struct geocoordinates
