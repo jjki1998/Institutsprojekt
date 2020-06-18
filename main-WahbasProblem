@@ -8,7 +8,7 @@ import Tracking: Hz, GPSL1
 
 CartFromSph = CartesianFromSpherical()
 
-NUM_STEPS =13000
+NUM_STEPS = 1300
 
 B = Array{Float64,3}(undef, 3, 3, NUM_STEPS)
 R = Array{Float64,3}(undef, 3, 3, NUM_STEPS)
@@ -60,22 +60,20 @@ states = map(dopplers, code_phases) do doppler, code_phase
     TrackingState(GPSL1, doppler, code_phase, num_ants = NumAnts(4))
 end
 
-signalmatrix = Array{ComplexF32, 2}(undef, 2500, 4)
+signalmatrix = Array{ComplexF32, 2}(undef, 25000, 4)
 
-signal1 = Array{ComplexF32, 1}(undef, 2500) #2500 Samples pro 1 ms
-signal2 = Array{ComplexF32, 1}(undef, 2500)
-signal3 = Array{ComplexF32, 1}(undef, 2500)
-signal4 = Array{ComplexF32, 1}(undef, 2500)
+signal1 = Array{ComplexF32, 1}(undef, 25000) #25000 Samples pro 10 ms
+signal2 = Array{ComplexF32, 1}(undef, 25000)
+signal3 = Array{ComplexF32, 1}(undef, 25000)
+signal4 = Array{ComplexF32, 1}(undef, 25000)
 stream1 = open("raw_data_antenna1.dat", "r")
 stream2 = open("raw_data_antenna2.dat", "r")
 stream3 = open("raw_data_antenna3.dat", "r")
 stream4 = open("raw_data_antenna4.dat", "r")
 
-steps = 1
-while !eof(stream1) && !eof(stream2) && !eof(stream3) && !eof(stream4)
+Threads.@threads for steps in 1:NUM_STEPS
 
     global states
-    global steps
 
     read!(stream1, signal1)
     signalmatrix[:, 1] = signal1
@@ -138,9 +136,6 @@ while !eof(stream1) && !eof(stream2) && !eof(stream3) && !eof(stream4)
     nick[steps] = rotations.theta2
     roll[steps] = rotations.theta3
 
-    steps += 1
-    if(steps==130) break
-    end
 end
 
 #Plots
