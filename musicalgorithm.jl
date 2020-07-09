@@ -10,6 +10,7 @@ function abssquare(vector)
 
 end
 
+#evaluation of p according to the introductory presentation
 function evaluationp(eignoisevech,steeringvec)
 
     p = abssquare(steeringvec) / abssquare(eignoisevech * steeringvec)
@@ -23,6 +24,8 @@ function musicalgorithm(noiseeigenh,aziele)
     maxelevation = 0
     maxp = 0
 
+    #steeringvectors for all combinations of azimuth and elevation
+    #are created from the given "antenna.CSV"-file to be tested for maximum
     for row in CSV.File("antenna.csv")
 
         azimuth = row.azi
